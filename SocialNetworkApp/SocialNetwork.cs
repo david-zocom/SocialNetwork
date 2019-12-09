@@ -38,15 +38,20 @@ namespace SocialNetworkApp
 
 		private bool IsInvalidName(string name)
 		{
+			// null
+			if (name == null)
+				return true;
+
+			// empty string ""
+			if (name.Length == 0)
+				return true;
+
 			// string with numbers
-			for(int i=0; i < name.Length; i++)
+			for (int i = 0; i < name.Length; i++)
 			{
 				if (Char.IsDigit(name[i]))
 					return true;
 			}
-
-			// empty string ""
-			// null
 
 			return false;
 		}
