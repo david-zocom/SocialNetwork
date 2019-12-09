@@ -79,10 +79,10 @@ namespace TestSocialNetwork
 		}
 		#endregion
 
+		#region Findusers test cases
 		// FindUsers should return an empty list if there are no matching users
 		// FindUsers should return a list of matching users if at least one matches
 		// - in a real-world application, we should explain what we mean with "matches" - exact match? Or approximate? (Per=Persson etc.)
-		// ???? which users are already in the network ????
 
 		[Fact]
 		public void ShouldReturnEmptyList_IfNoMatchingUsers()
@@ -114,6 +114,60 @@ namespace TestSocialNetwork
 
 			// assert
 			Assert.Equal(2, matches.Count);
+			// sometimes we don't need to check the contents, the count is enough
+		}
+		#endregion
+
+
+		// DoPost should return true if post was successful
+		[Fact]
+		public void ShouldReturnTrue_IfPostSuccessful()
+		{
+			// arrange
+			SocialNetwork socialNetwork = new SocialNetwork();
+			User user = new User("Tom", "Hughes");
+			string content = "Exciting content";
+
+			// act
+			bool result = socialNetwork.DoPost(content, user);
+
+			// assert
+			Assert.True(result);
+			Assert.Single(socialNetwork.allPosts);
+		}
+		// DoPost should return false if content is null or empty string
+		// .......................... if user is null
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData("")]
+		public void ShouldReturnFalse_IfNoContent(string content)
+		{
+			// arrange
+			SocialNetwork socialNetwork = new SocialNetwork();
+			User user = new User("Tom", "Hughes");
+
+			// act
+			bool result = socialNetwork.DoPost(content, user);
+
+			// assert
+			Assert.False(result);
+			Assert.Empty(socialNetwork.allPosts);
+		}
+
+		[Fact]
+		public void ShouldReturnFalse_IfNoUser()
+		{
+			// arrange
+			SocialNetwork socialNetwork = new SocialNetwork();
+			string content = "exhilirating content";
+
+			// act
+			bool result = socialNetwork.DoPost(content, null);
+
+			// assert
+			Assert.False(result);
+			Assert.Empty(socialNetwork.allPosts);
 		}
 	}
 }

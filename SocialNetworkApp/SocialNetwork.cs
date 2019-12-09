@@ -7,9 +7,10 @@ namespace SocialNetworkApp
 	public class SocialNetwork
 	{
 		// properties: all users, all posts
-		// CreateUser, FindUser, DoPost, GetTopPost
+		// CreateUser, FindUser, DoPost, (GetTopPosts)
 
 		public List<User> allUsers = new List<User>();
+		public List<Post> allPosts = new List<Post>();
 
 		public bool CreateUser(string firstName, string lastName)
 		{
@@ -73,5 +74,18 @@ namespace SocialNetworkApp
 			}
 			return matches;
 		}
+
+		public bool DoPost(string content, User user)
+		{
+			if (content == null || content == "")
+				return false;
+
+			if (user == null)
+				return false;
+
+			allPosts.Add(new Post(content, user));
+			return true;
+		}
+
 	}
 }
