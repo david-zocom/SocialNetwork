@@ -46,9 +46,7 @@ namespace TestSocialNetwork
 			// arrange
 			SocialNetwork socialNetwork = new SocialNetwork();
 			string firstName = "Gordon", lastName = "Brown";
-			User existingUser = new User();
-			existingUser.firstName = firstName;
-			existingUser.lastName = lastName;
+			User existingUser = new User(firstName, lastName);
 			socialNetwork.allUsers.Add(existingUser);
 
 			// act
@@ -81,6 +79,41 @@ namespace TestSocialNetwork
 		}
 		#endregion
 
+		// FindUsers should return an empty list if there are no matching users
+		// FindUsers should return a list of matching users if at least one matches
+		// - in a real-world application, we should explain what we mean with "matches" - exact match? Or approximate? (Per=Persson etc.)
+		// ???? which users are already in the network ????
 
+		[Fact]
+		public void ShouldReturnEmptyList_IfNoMatchingUsers()
+		{
+			// arrange
+			SocialNetwork socialNetwork = new SocialNetwork();
+
+			// act
+			List<User> matches = socialNetwork.FindUsers("Michael");
+
+			// assert
+			Assert.Empty(matches);
+		}
+
+		[Fact]
+		public void ShouldReturnMatchingUsers_IfAnyMatch()
+		{
+			// arrange
+			string search = "Godzilla";
+			SocialNetwork socialNetwork = new SocialNetwork();
+			User u1 = new User(search, "Persson");
+			User u2 = new User("Nisse", search);
+			User u3 = new User("Pelle", "Svanslös");
+			socialNetwork.allUsers.Add(u1);
+			socialNetwork.allUsers.Add(u2);
+
+			// act
+			List<User> matches = socialNetwork.FindUsers(search);
+
+			// assert
+			Assert.Equal(2, matches.Count);
+		}
 	}
 }

@@ -13,9 +13,7 @@ namespace SocialNetworkApp
 
 		public bool CreateUser(string firstName, string lastName)
 		{
-			User user = new User();
-			user.firstName = firstName;
-			user.lastName = lastName;
+			User user = new User(firstName, lastName);
 
 			// do not add a user that already exist in the list
 			foreach (var person in allUsers)
@@ -56,11 +54,24 @@ namespace SocialNetworkApp
 			return false;
 		}
 
+
 		// 1 return the User object
 		// 2 do not return anything
 		// 3 return true or false
 		// 4 maybe it can throw exceptions
 		//public bool CreateUser(string firstName, string lastName)
 		// User: string firstName, lastName, ... (date of birth, profile picture)
+
+
+		public List<User> FindUsers(string search)
+		{
+			List<User> matches = new List<User>();
+			foreach (var user in allUsers)
+			{
+				if (user.firstName == search || user.lastName == search)
+					matches.Add(user);
+			}
+			return matches;
+		}
 	}
 }
